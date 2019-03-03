@@ -105,3 +105,17 @@ class SKUListAPIView(ListAPIView):
         category_id = self.kwargs['category_id']
 
         return SKU.objects.filter(category_id=category_id, is_launched=True)
+
+
+
+from .serializers import SKUIndexSerializer
+from drf_haystack.viewsets import HaystackViewSet
+
+class SKUSearchViewSet(HaystackViewSet):
+    """
+    SKU搜索
+    """
+    index_models = [SKU]
+
+    serializer_class = SKUIndexSerializer
+
