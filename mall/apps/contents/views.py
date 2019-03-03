@@ -44,3 +44,12 @@ from django.shortcuts import render
         ③ 就是我们在修改(包括添加) admin 后台分类数据的时候 触发 重新生成 列表页面
 
 """
+
+"""
+
+搜索
+
+    1. 首先需要将数据给 elasticsearch 进行分词处理 ,它会存储分词结果
+    2. 使用haystack对接Elasticsearch
+
+"""
