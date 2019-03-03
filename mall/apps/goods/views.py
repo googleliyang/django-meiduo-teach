@@ -72,3 +72,34 @@ class HotsSKUListAPIView(ListAPIView):
 
 
     # pass
+
+"""
+解决问题的思路:  把复杂的问题 简单化
+                简单的问题 先实现 ,再一点一点的实现复杂的
+
+"""
+
+from rest_framework.pagination import PageNumberPagination
+
+
+
+
+from rest_framework.generics import GenericAPIView
+
+class SKUListAPIView(ListAPIView):
+
+    serializer_class = SKUSerialzier
+
+    #添加排序
+    from rest_framework.filters import OrderingFilter
+    filter_backends = [OrderingFilter]
+    #添加排序字段
+    ordering_fields=['sales','price','create_time']
+
+    #添加分页
+    # pagination_class = CustomPageNumberPagination
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+
+        return SKU.objects.filter(category_id=category_id, is_launched=True)

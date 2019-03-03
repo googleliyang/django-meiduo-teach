@@ -267,6 +267,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    # 'PAGE_SIZE':2
+    # 让所有的 分页类,都采用我们定义的分页
+    # 分页类(GenericAPIView 有分页属性)
+    'DEFAULT_PAGINATION_CLASS':'utils.pagination.CustomPageNumberPagination'
 }
 
 # 替换系统的User,让系统的User也使用我们的模型类
