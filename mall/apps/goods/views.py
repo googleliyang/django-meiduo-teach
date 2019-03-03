@@ -1,6 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
+from goods.models import SKU
+from goods.serializers import SKUSerialzier
+
 
 class Person(object):
 
@@ -19,3 +22,53 @@ p.name='aaa'
 2. 找一个安静的没有人打扰的时候,分析表和表之间的关系 (分析的时候,就分析2个表之间的分析)
 
 """
+
+
+"""
+
+热销商品
+需求:
+    当用户点击某一个分类的时候,需要获取 这个分类的热销数据
+
+步骤:
+    1. 接收分类id
+    2. 校验数据
+    3. 根据分类id查询数据(排序,获取指定条数的数据)  [SKU,SKU,SKU]
+    4. 创建序列化器,将对象列表转换为字典
+    5. 返回相应
+请求方式和路由
+    GET      /goods/categories/(?P<category_id>\d+)/hotskus/
+
+    GET     /goods/hotskus/?cat_id=xxx
+
+    POST    /goods/hotskus/         body
+
+视图:
+    APIView
+    GeneriAPIVIew
+    ListAPIView,RetrieveAPIView
+
+编码:
+
+"""
+from rest_framework.generics import ListAPIView
+class HotsSKUListAPIView(ListAPIView):
+
+    #GET      /goods/categories/(?P<category_id>\d+)/hotskus/
+
+    serializer_class = SKUSerialzier
+
+    # queryset = SKU.objects.filter(category_id=self.categroy_id)
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+
+        return SKU.objects.filter(category_id=category_id,is_launched=True).order_by('-sales')[:2]
+        # SKU.obects.filter(category_id=category_id).order_by('-sales')[0:2]
+        # pass
+
+
+    # def get(self,request,category_id):
+
+
+    # pass
