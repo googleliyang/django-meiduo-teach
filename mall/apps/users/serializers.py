@@ -2,6 +2,8 @@ import re
 from django_redis import get_redis_connection
 
 from rest_framework import serializers
+
+from goods.models import SKU
 from users.models import User, Address
 # serializers.ModelSerializer
 # serializers.Serializer
@@ -296,3 +298,44 @@ token = s.dumps(data)
 
 
 s.loads(token)
+
+
+
+######################用户浏览记录#######################
+
+class UserHistorySerializer(serializers.Serializer):
+
+    sku_id = serializers.IntegerField(label='商品id',required=True)
+
+    def validate_sku_id(self,value):
+
+        # 校验 商品是否存在
+        try:
+            SKU.objects.get(pk=value)
+        except SKU.DoesNotExist:
+            raise serializers.ValidationError('商品不存在')
+
+        return value
+
+    # def validate(self, attrs):
+    #     pass
+    # 因为我们是保存在redis中 ,所以 不能使用 ModelSerialzier 的create方法
+    # 因为  ModelSerialzier 的create方法 是将数据保存在 数据库中
+    def create(self, validated_data):
+
+        user = self.context['request'].user
+        sku_id = validated_data.get('sku_id')
+
+        #1. 连接redis
+        redis_conn = get_redis_connection('history')
+        #2. 保存数据
+        # 从左边加 ,因为左边都是最新的
+        redis_conn.lpush('history_%s'%user.id,sku_id)
+
+
+        return validated_data
+
+
+
+
+

@@ -8,7 +8,8 @@ from rest_framework.response import Response
 # from apps.users.models import User            错误
 
 from users.models import User
-from users.serializers import RegisterUserSerializer, UserCenterInfoSerializer, UserEmailSerializer, AddressSerializer
+from users.serializers import RegisterUserSerializer, UserCenterInfoSerializer, UserEmailSerializer, AddressSerializer, \
+    UserHistorySerializer
 
 """
 一.分析需求
@@ -400,6 +401,68 @@ class UserAddressAPIView(APIView):
         return Response(serializer.data)
 
 
+######################浏览记录##################################
+
+"""  添加浏览记录
+一.分析需求
+    当登陆用户访问商品详情的时候,需要让前端发送一个 ajax请求
+    将用户信息(token 在请求头中传递)和 商品id提交给后端
+
+二.步骤(大概的思路)
+    1.接收数据    goods_id
+    2.校验数据
+    3.数据入库
+    4.返回相应
+
+三.确定请求方式和路由
+    POST         /users/browerhistories/          body
+
+    GET         /users/browerhistory/?id=2
+    GET         /users/browerhistory/id/
 
 
+四.选取哪个视图(结合需求,使用排除法)
+    APIView                         :基类
+    GenericAPIView                  :对列表视图和详情视图做了通用支持,一般和mixin配合使用
+    CreateAPIView                   : 连http请求方法都不用写
+
+五.编码
+
+Redis
+    user_id,goods_id
+
+String
+    key:value
+
+Hash
+
+    hash_key:
+        filed:value
+        field:value
+
+
+List  v
+    list_key:  value1,value2,value2,value3,value1...
+
+    user_id:    goods_id,goods_ids  有顺序
+
+Set(无序)
+
+    set_key:    value3,value1,value2,...
+
+
+OrderSet
+
+    zset_key:   value1,value2,value3,....
+
+    user_id:   权重
+
+"""
+
+from rest_framework.generics import CreateAPIView
+class UserHistoryAPIView(CreateAPIView):
+
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = UserHistorySerializer
 

@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^emails/verification/$',views.UserEmailVerificationAPIView.as_view()),
 
     url(r'^addresses/$',views.UserAddressAPIView.as_view()),
+
+    url(r'^browerhistories/$',views.UserHistoryAPIView.as_view()),
 ]
 
 """
