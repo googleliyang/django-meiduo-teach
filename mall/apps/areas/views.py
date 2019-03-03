@@ -98,6 +98,8 @@ from rest_framework_extensions.cache.mixins import ListCacheResponseMixin,Retrie
 
 class AreaModelViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
 
+    pagination_class = None
+
     # 列表视图, 把查询结果集的所有数据都获取到
     # 省的信息  Area.objects.filter(parent=None)
     # 市/区县的信息 Area.objects.all()

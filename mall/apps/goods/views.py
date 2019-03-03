@@ -54,6 +54,8 @@ p.name='aaa'
 from rest_framework.generics import ListAPIView
 class HotsSKUListAPIView(ListAPIView):
 
+    pagination_class = None
+
     #GET      /goods/categories/(?P<category_id>\d+)/hotskus/
 
     serializer_class = SKUSerialzier
