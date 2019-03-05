@@ -329,9 +329,16 @@ class UserHistorySerializer(serializers.Serializer):
         #1. 连接redis
         redis_conn = get_redis_connection('history')
         #2. 保存数据
+        #2.1 我们在保存之前,先删掉 列表中可能存在的数据
+        # [ 1,3,4,1,5,1,3,1]
+        #
+        redis_conn.lrem('history_%s'%user.id,0,sku_id)
+        #2.2 再添加
         # 从左边加 ,因为左边都是最新的
         redis_conn.lpush('history_%s'%user.id,sku_id)
 
+        #2.3 我们只需要保存 5条记录
+        redis_conn.ltrim('history_%s'%user.id,0,4)
 
         return validated_data
 

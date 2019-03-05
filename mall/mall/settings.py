@@ -15,7 +15,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 # tel:18310820688
 # mail: qiruihua@itcast.cn/qiruihua@live.cn
 # qq:2860798672
-
+#
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -461,7 +461,7 @@ OrderSet
 
 from rest_framework.generics import CreateAPIView
 class UserHistoryAPIView(CreateAPIView):
-
+    #登陆用户才可以发访问
     permission_classes = [IsAuthenticated]
 
     serializer_class = UserHistorySerializer
