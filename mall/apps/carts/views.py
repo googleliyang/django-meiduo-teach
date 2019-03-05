@@ -331,3 +331,98 @@ class CartAPIView(APIView):
         return Response(serializer.data)
 
 
+
+    """
+    幂等  把最终结果发送过来
+        result = 10
+        需要后端将操作的结果发送给前端,前端会根据请求 更新前端数据
+
+
+    非幂等
+        num = 1  num=-1
+
+
+    需求:
+    当用户修改购物车数据的时候,因为用户的行为是不确定的,所以当用户修改某一个商品的时候
+    我们需要让前端 将商品的id,个数和选中状态都提交过来
+
+    思路:
+        1. 接收数据
+        2. 校验数据
+        3. 获取校验后的数据
+        4. 获取用户信息
+        5. 根据用户信息进行判断
+        6. 登陆用户redis
+            6.1 连接redis
+            6.2 更新数据
+            6.3 返回相应(要注意,把数据返回给前端)
+        7. 未登录用户cookie
+            7.1 先获取cookie数据
+            7.2 判断cookie数据是否存在
+                如果存在则进行解密
+            7.3 更新数据
+
+            7.4 对字典进行加密
+            7.5 设置cookie数据
+            7.6 返回相应
+
+    """
+
+    def put(self,request):
+        # 1. 接收数据
+        data = request.data
+        # 2. 校验数据
+        serializer = CartSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        # 3. 获取校验后的数据
+        sku_id = serializer.validated_data.get('sku_id')
+        count = serializer.validated_data.get('count')
+        selected = serializer.validated_data.get('selected')
+        # 4. 获取用户信息
+        user = request.user
+        # 5. 根据用户信息进行判断
+        if user is not None and user.is_authenticated:
+
+            # 6. 登陆用户redis
+            #     6.1 连接redis
+            redis_conn = get_redis_connection('cart')
+            #     6.2 更新数据
+            # hash
+            redis_conn.hset('cart_%s'%user.id,sku_id,count)
+            # set
+            if selected:
+                redis_conn.sadd('cart_selected_%s'%user.id,sku_id)
+            else:
+                redis_conn.srem('cart_selected_%s'%user.id,sku_id)
+            #     6.3 返回相应(要注意,把数据返回给前端)
+            return Response(serializer.data)
+
+        else:
+
+            # 7. 未登录用户cookie
+            #     7.1 先获取cookie数据
+            cookie_str = request.COOKIES.get('cart')
+            #     7.2 判断cookie数据是否存在
+            if cookie_str is not None:
+                #         如果存在则进行解密
+                cookie_cart = pickle.loads(base64.b64decode(cookie_str))
+            else:
+                cookie_cart = {}
+            #     7.3 更新数据
+            #  {sku_id: {count:xxx,selected:xxx}}
+            if sku_id in cookie_cart:
+                cookie_cart[sku_id] = {
+                    'count':count,
+                    'selected':selected
+                }
+            #     7.4 对字典进行加密
+            cookie_save_str = base64.b64encode(pickle.dumps(cookie_cart)).decode()
+            #     7.5 设置cookie数据
+            response = Response(serializer.data)
+
+            response.set_cookie('cart',cookie_save_str,3600)
+            #     7.6 返回相应
+            return response
+
+
+
