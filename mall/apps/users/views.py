@@ -466,3 +466,32 @@ class UserHistoryAPIView(CreateAPIView):
 
     serializer_class = UserHistorySerializer
 
+
+"""
+考虑:
+    前端发送请求的时候要传递什么
+    后端接收请求之后要相应什么
+
+一.分析需求
+    当登陆用户访问个人中心的时候,需要返回最近浏览记录
+    这个时候 需要让前端发送一个用户信息给后端
+
+二.步骤(大概的思路)
+    1.接收用户信息
+    2.根据用户信息到redis中获取浏览记录 [1,2,3,4]
+    3.根据id查询商品详细信息  [sku,sku,sku,sku]
+    4.将对象列表转换为 字典
+    5. 返回相应
+
+三.确定请求方式和路由
+    GET         /users/browerhistories/
+
+
+四.选取哪个视图(结合需求,使用排除法)
+    APIView                         :基类
+    GenericAPIView                  :对列表视图和详情视图做了通用支持,一般和mixin配合使用
+    CreateAPIView                   : 连http请求方法都不用写
+
+五.编码
+
+"""

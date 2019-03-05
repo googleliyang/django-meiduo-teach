@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5cd07279-6254-4dd7-8bf8-b88faf333963" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/users/serializers.py" afterPath="$PROJECT_DIR$/mall/apps/users/serializers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/users/views.py" afterPath="$PROJECT_DIR$/mall/apps/users/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/mall/settings.py" afterPath="$PROJECT_DIR$/mall/mall/settings.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mall/apps/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="228">
-              <caret line="462" column="31" lean-forward="false" selection-start-line="462" selection-start-column="31" selection-end-line="462" selection-end-column="31" />
+              <caret line="486" column="20" lean-forward="false" selection-start-line="486" selection-start-column="20" selection-end-line="486" selection-end-column="20" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -45,21 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="generics.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.virtualenvs/py3_django_1.11/local/lib/python3.5/site-packages/rest_framework/generics.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="185" column="6" lean-forward="false" selection-start-line="185" selection-start-column="6" selection-end-line="185" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mall/apps/users/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="337" column="25" lean-forward="true" selection-start-line="337" selection-start-column="25" selection-end-line="337" selection-end-column="25" />
+            <state relative-caret-position="863">
+              <caret line="337" column="46" lean-forward="true" selection-start-line="337" selection-start-column="46" selection-end-line="337" selection-end-column="46" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <element signature="e#2219#2316#0" expanded="false" />
@@ -142,8 +130,8 @@
         <option value="$PROJECT_DIR$/mall/script/detail_html.py" />
         <option value="$PROJECT_DIR$/mall/apps/users/urls.py" />
         <option value="$PROJECT_DIR$/mall/mall/settings.py" />
-        <option value="$PROJECT_DIR$/mall/apps/users/views.py" />
         <option value="$PROJECT_DIR$/mall/apps/users/serializers.py" />
+        <option value="$PROJECT_DIR$/mall/apps/users/views.py" />
       </list>
     </option>
   </component>
@@ -557,13 +545,6 @@
       <option name="presentableId" value="Default" />
       <updated>1550567630261</updated>
     </task>
-    <task id="LOCAL-00016" summary="实现JWT的返回数据方法&#10;">
-      <created>1550825795786</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1550825795786</updated>
-    </task>
     <task id="LOCAL-00017" summary="在后端设置CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie&#10;">
       <created>1550826807564</created>
       <option name="number" value="00017" />
@@ -900,7 +881,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551607804279</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="添加用户浏览记录(去重和修剪)">
+      <created>1551751839434</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1551751839442</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -952,7 +940,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="激活邮件的激活操作" />
     <MESSAGE value="通过APIView获取省市区数据" />
     <MESSAGE value="省市区数据的获取" />
     <MESSAGE value="related_name的选项设置" />
@@ -977,7 +964,8 @@
     <MESSAGE value="详情页面的静态化" />
     <MESSAGE value="脚本实现详情页面的生成" />
     <MESSAGE value="添加用户浏览记录" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加用户浏览记录" />
+    <MESSAGE value="添加用户浏览记录(去重和修剪)" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加用户浏览记录(去重和修剪)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1433,16 +1421,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mall/apps/users/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="462" column="31" lean-forward="false" selection-start-line="462" selection-start-column="31" selection-end-line="462" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.virtualenvs/py3_django_1.11/local/lib/python3.5/site-packages/rest_framework/generics.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -1453,12 +1431,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/users/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="337" column="25" lean-forward="true" selection-start-line="337" selection-start-column="25" selection-end-line="337" selection-end-column="25" />
+        <state relative-caret-position="863">
+          <caret line="337" column="46" lean-forward="true" selection-start-line="337" selection-start-column="46" selection-end-line="337" selection-end-column="46" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
             <element signature="e#2219#2316#0" expanded="false" />
             <marker date="1551751814907" expanded="false" signature="4419:4589" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall/apps/users/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="486" column="20" lean-forward="false" selection-start-line="486" selection-start-column="20" selection-end-line="486" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
