@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cd07279-6254-4dd7-8bf8-b88faf333963" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mall/apps/carts/serialziers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/carts/views.py" afterPath="$PROJECT_DIR$/mall/apps/carts/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/mall/settings.py" afterPath="$PROJECT_DIR$/mall/mall/settings.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,10 +47,11 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mall/apps/carts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="193" column="30" lean-forward="false" selection-start-line="193" selection-start-column="30" selection-end-line="193" selection-end-column="30" />
+            <state relative-caret-position="338">
+              <caret line="269" column="18" lean-forward="true" selection-start-line="269" selection-start-column="18" selection-end-line="269" selection-end-column="18" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#2635#5296#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -61,8 +60,8 @@
       <file leaf-file-name="serialziers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mall/apps/carts/serialziers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="12" column="70" lean-forward="true" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="70" />
+            <state relative-caret-position="-58">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="14" selection-end-column="0" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -615,13 +614,6 @@
       <option name="presentableId" value="Default" />
       <updated>1550567630261</updated>
     </task>
-    <task id="LOCAL-00021" summary="QQ第三方登陆模型&#10;">
-      <created>1550980398873</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1550980398873</updated>
-    </task>
     <task id="LOCAL-00022" summary="手动拼接 跳转的url&#10;">
       <created>1550981733918</created>
       <option name="number" value="00022" />
@@ -958,7 +950,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551771720576</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="添加购物车的功能实现(cookie的验证)">
+      <created>1551774947629</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1551774947629</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1010,7 +1009,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="地址模型" />
     <MESSAGE value="新增地址的实现" />
     <MESSAGE value="一级视图在使用序列化器的时候需要手动传递 request,view" />
     <MESSAGE value="商品模型" />
@@ -1035,7 +1033,8 @@
     <MESSAGE value="获取用户浏览记录的实现" />
     <MESSAGE value="用户认证方法重写" />
     <MESSAGE value="添加购物车的思路分析" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加购物车的思路分析" />
+    <MESSAGE value="添加购物车的功能实现(cookie的验证)" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加购物车的功能实现(cookie的验证)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1528,16 +1527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mall/apps/carts/serialziers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="12" column="70" lean-forward="true" selection-start-line="12" selection-start-column="63" selection-end-line="12" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mall/mall/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="206">
@@ -1554,12 +1543,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mall/apps/carts/serialziers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-58">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/carts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="193" column="30" lean-forward="false" selection-start-line="193" selection-start-column="30" selection-end-line="193" selection-end-column="30" />
+        <state relative-caret-position="338">
+          <caret line="269" column="18" lean-forward="true" selection-start-line="269" selection-start-column="18" selection-end-line="269" selection-end-column="18" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2635#5296#0" expanded="false" />
           </folding>
         </state>
       </provider>

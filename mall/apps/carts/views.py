@@ -212,3 +212,66 @@ class CartAPIView(APIView):
             return response
 
 
+    """
+    一.需求
+        当用户点击购物车页面的时候,我们需要让前端将用户信息传递给后端
+    二.步骤
+        1. 获取用户信息
+        2. 判断用户信息
+        3. 登陆用户从redis中获取数据
+            3.1 连接redis
+            3.2 获取redis的数据 hash set  sku_id:count,sku_id:count ,
+            3.3 获取商品的所有的id      [id,id,id,id]
+            3.4 再根据id获取商品的详细信息  [sku,sku,sku,sku]
+            3.5 将对象列表转换为字典
+            3.6 返回相应
+        4. 未登录用户从cookie中获取数据
+            4.1 从cookie中获取数据
+            4.2 判断数据是否存在
+                如果存在则要进行 解码     {sku_id:{count:xxx,selected:xxx}}
+                如果不存在
+            4.3 获取商品的所有的id  [id,id,id]
+            4.4 再根据id获取商品的详细信息 [sku,sku,sku,sku]
+            4.5 将对象列表转换为字典
+            4.6 返回相应
+
+
+
+
+        # 1. 获取用户信息
+        # 2. 判断用户信息
+        # 3. 登陆用户从redis中获取数据
+        #     3.1 连接redis
+        #     3.2 获取redis的数据 hash set  sku_id:count,sku_id:count ,
+        #
+        # 4. 未登录用户从cookie中获取数据
+        #     4.1 从cookie中获取数据
+        #     4.2 判断数据是否存在
+        #         如果存在则要进行 解码     {sku_id:{count:xxx,selected:xxx}}
+        #         如果不存在
+        # 5   获取商品的所有的id  [id,id,id]
+        # 6   再根据id获取商品的详细信息 [sku,sku,sku,sku]
+        # 7   将对象列表转换为字典
+        # 8   返回相应
+    """
+
+    def get(self,request):
+
+        # 1. 获取用户信息
+        # 2. 判断用户信息
+        # 3. 登陆用户从redis中获取数据
+        #     3.1 连接redis
+        #     3.2 获取redis的数据 hash set  sku_id:count,sku_id:count ,
+        #
+        # 4. 未登录用户从cookie中获取数据
+        #     4.1 从cookie中获取数据
+        #     4.2 判断数据是否存在
+        #         如果存在则要进行 解码     {sku_id:{count:xxx,selected:xxx}}
+        #         如果不存在
+        # 5   获取商品的所有的id  [id,id,id]
+        # 6   再根据id获取商品的详细信息 [sku,sku,sku,sku]
+        # 7   将对象列表转换为字典
+        # 8   返回相应
+
+        pass
+
