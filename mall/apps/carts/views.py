@@ -88,9 +88,70 @@ class CartAPIView(APIView):
 
     def perform_authentication(self, request):
         pass
+    """
+    一.需求:
 
+    如果用户没有登陆,当用户点击加入购物车的时候,前端需要将商品id,个数,选中状态提交给后端
+    如果用户登陆了,当用户点击加入购物车的时候,前端需要将商品id,个数,选中状态和用户信息提交给后端
+
+    二.步骤:
+
+    1.后端接收这些数据(sku_id,count,selected)
+    2.校验数据
+    3.校验之后再获取这些数据
+    4.获取用户信息
+    5.根据用户信息进行判断
+    6.登陆用户redis
+        6.1 连接redis
+        6.2 保存数据    hash  set
+        6.3 返回相应
+    7.未登录用户cookie
+
+        接收数据了    1: count:1 selected:True
+
+        7.1 先获取cookie信息
+        7.2 判断cookie信息中 是否有 购物车的信息
+            如果有 cookie信息是经过base64加密的,现在要解密
+            如果没有
+
+            {1:'count':2,'selected':True}
+        7.3 判断商品是否存在cookie的购物车中
+            如果有则累加个数
+            如果没有 则将接收的数据 添加到cookie购物车中
+
+            {1:'count':2,'selected':True}
+        7.4 对字典数据进行转换   'abcde'
+        7.5  设置cookie
+        7.6   返回相应
+
+    """
     def post(self,request):
-
-        print(request.user)
+        # 1.后端接收这些数据(sku_id,count,selected)
+        # 2.校验数据
+        # 3.校验之后再获取这些数据
+        # 4.获取用户信息
+        # 5.根据用户信息进行判断
+        # 6.登陆用户redis
+        #     6.1 连接redis
+        #     6.2 保存数据    hash  set
+        #     6.3 返回相应
+        # 7.未登录用户cookie
+        #
+        #     接收数据了    1: count:1 selected:True
+        #
+        #     7.1 先获取cookie信息
+        #     7.2 判断cookie信息中 是否有 购物车的信息
+        #         如果有 cookie信息是经过base64加密的,现在要解密
+        #         如果没有
+        #
+        #         {1:'count':2,'selected':True}
+        #     7.3 判断商品是否存在cookie的购物车中
+        #         如果有则累加个数
+        #         如果没有 则将接收的数据 添加到cookie购物车中
+        #
+        #         {1:'count':2,'selected':True}
+        #     7.4 对字典数据进行转换   'abcde'
+        #     7.5  设置cookie
+        #     7.6   返回相应
         pass
 
