@@ -6,7 +6,8 @@ from django_redis import get_redis_connection
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from carts.serialziers import CartSerializer
+from carts.serialziers import CartSerializer, CartSKUSerializer
+from goods.models import SKU
 
 """
     后端:  关系型数据库 mysql
@@ -258,20 +259,75 @@ class CartAPIView(APIView):
     def get(self,request):
 
         # 1. 获取用户信息
+        user = request.user
         # 2. 判断用户信息
-        # 3. 登陆用户从redis中获取数据
-        #     3.1 连接redis
-        #     3.2 获取redis的数据 hash set  sku_id:count,sku_id:count ,
-        #
-        # 4. 未登录用户从cookie中获取数据
-        #     4.1 从cookie中获取数据
-        #     4.2 判断数据是否存在
-        #         如果存在则要进行 解码     {sku_id:{count:xxx,selected:xxx}}
-        #         如果不存在
-        # 5   获取商品的所有的id  [id,id,id]
-        # 6   再根据id获取商品的详细信息 [sku,sku,sku,sku]
-        # 7   将对象列表转换为字典
-        # 8   返回相应
+        if user is not None and user.is_authenticated:
 
-        pass
+            # 3. 登陆用户从redis中获取数据
+            #     3.1 连接redis
+            redis_conn = get_redis_connection('cart')
+            #     3.2 获取redis的数据 hash set  sku_id:count,sku_id:count ,
+            # hash
+            # {sku_id:count,sku_id:count}
+            redis_ids_count = redis_conn.hgetall('cart_%s'%user.id)
+
+            #set
+            # {sku_id,sku_id}
+            redis_selected_ids = redis_conn.smembers('cart_selected_%s'%user.id)
+
+            # 额外做一部,统一数据格式
+            # 将redis数据转换为 cookie数据格式
+
+            cookie_cart = {}
+            #{sku_id:{count:xxx,selected:xxx}}
+            # 对redis数据进行遍历
+            for id,count in redis_ids_count.items():
+
+                # 判断 遍历的id 是否在 选中的列表中
+                if id in redis_selected_ids:
+                    selected=True
+                else:
+                    selected=False
+
+                cookie_cart[id] = {
+                    'count':count,
+                    # 'selected': id in redis_selected_ids
+                    'selected': selected
+                }
+
+
+        else:
+
+            # 4. 未登录用户从cookie中获取数据
+            #     4.1 从cookie中获取数据
+            cookie_str = request.COOKIES.get('cart')
+            #     4.2 判断数据是否存在
+            if cookie_str is not None:
+            #         如果存在则要进行 解码
+            # {sku_id:{count:xxx,selected:xxx}}
+                cookie_cart = pickle.loads(base64.b64decode(cookie_str))
+            else:
+                #         如果不存在
+                cookie_cart = {}
+
+
+        # 5   获取商品的所有的id  [id,id,id]
+        # 获取字典中的所有key
+        ids = cookie_cart.keys()
+        # 6   再根据id获取商品的详细信息 [sku,sku,sku,sku]
+        skus = SKU.objects.filter(pk__in=ids)
+
+        # 额外添加一部 ,对列表数据进行遍历 ,动态添加 count和selected
+
+        # {sku_id:{count:xxx,selected:xxx}}
+        # 从 cookie_cart 中获取 count和 selected
+        for sku in skus:
+            sku.count = cookie_cart[sku.id]['count']
+            sku.selected = cookie_cart[sku.id]['selected']
+
+        # 7   将对象列表转换为字典
+        serializer = CartSKUSerializer(skus,many=True)
+        # 8   返回相应
+        return Response(serializer.data)
+
 
