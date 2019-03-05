@@ -1,5 +1,12 @@
+import pickle
+
+import base64
 from django.shortcuts import render
+from django_redis import get_redis_connection
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from carts.serialziers import CartSerializer
 
 """
     后端:  关系型数据库 mysql
@@ -127,31 +134,81 @@ class CartAPIView(APIView):
     """
     def post(self,request):
         # 1.后端接收这些数据(sku_id,count,selected)
+        data = request.data
         # 2.校验数据
+        serializer = CartSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
         # 3.校验之后再获取这些数据
+        sku_id = serializer.validated_data.get('sku_id')
+        count = serializer.validated_data.get('count')
+        selected = serializer.validated_data.get('selected')
         # 4.获取用户信息
+        user = request.user
         # 5.根据用户信息进行判断
-        # 6.登陆用户redis
-        #     6.1 连接redis
-        #     6.2 保存数据    hash  set
-        #     6.3 返回相应
-        # 7.未登录用户cookie
-        #
-        #     接收数据了    1: count:1 selected:True
-        #
-        #     7.1 先获取cookie信息
-        #     7.2 判断cookie信息中 是否有 购物车的信息
-        #         如果有 cookie信息是经过base64加密的,现在要解密
-        #         如果没有
-        #
-        #         {1:'count':2,'selected':True}
-        #     7.3 判断商品是否存在cookie的购物车中
-        #         如果有则累加个数
-        #         如果没有 则将接收的数据 添加到cookie购物车中
-        #
-        #         {1:'count':2,'selected':True}
-        #     7.4 对字典数据进行转换   'abcde'
-        #     7.5  设置cookie
-        #     7.6   返回相应
-        pass
+        # is_authenticated 认证过的,也就是说 是登陆的用户
+        if user is not None and user.is_authenticated:
+
+            # 6.登陆用户redis
+            #     6.1 连接redis
+            redis_conn = get_redis_connection('cart')
+            #     6.2 保存数据
+            # hash
+            redis_conn.hset('cart_%s'%user.id,sku_id,count)
+            # set  集合
+            if selected:
+                redis_conn.sadd('cart_selected_%s'%user.id,sku_id)
+            #     6.3 返回相应
+            return Response(serializer.data)
+
+        else:
+            # 7.未登录用户cookie
+            #
+            #     接收数据了    1: count:1 selected:True
+            #
+            #     7.1 先获取cookie信息
+            cookie_str = request.COOKIES.get('cart')
+            #     7.2 判断cookie信息中 是否有 购物车的信息
+            if cookie_str is not None:
+                #         如果有 cookie信息是经过base64加密的,现在要解密
+                # 7.2.1 先将字符串经过base64 解密
+                bytes_data = base64.b64decode(cookie_str)
+                #7.2.2 将解密的二进制 进行字典转换
+                cookie_cart = pickle.loads(bytes_data)
+
+            else:
+                #         如果没有
+                cookie_cart = {}
+            #
+            #         cookie_cart = {1:{'count':2,'selected':True}}
+            #     7.3 判断商品是否存在cookie的购物车中
+            if sku_id in cookie_cart:
+                #         如果有则累加个数
+                original_count = cookie_cart[sku_id]['count']
+                # count = count + original_count
+                count += original_count
+
+            #更新数据
+            #         如果没有 则将接收的数据 添加到cookie购物车中
+            cookie_cart[sku_id]={
+                'count':count,
+                'selected':selected
+            }
+
+            #
+            #         {1:{'count':2,'selected':True}}
+            #     7.4 对字典数据进行转换   'abcde'
+            # 7.4.1 将字典转换为二进制
+            bytes_dumps = pickle.dumps(cookie_cart)
+            #7.4.2 对二进制进行base64编码
+            bytes_str =  base64.b64encode(bytes_dumps)
+            # 7.4.3 获取字符串
+            cookie_save_str = bytes_str.decode()
+            #     7.5  设置cookie
+            response = Response(serializer.data)
+
+            response.set_cookie('cart',cookie_save_str,3600)
+
+            #     7.6   返回相应
+            return response
+
 
