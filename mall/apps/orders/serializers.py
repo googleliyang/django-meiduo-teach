@@ -49,3 +49,29 @@ class OrderSerializer(serializers.ModelSerializer):
         }
 
 
+    """
+    订单保存
+        1. 先生成订单信息
+            OrderInfo
+            1.1 获取用户信息 V
+            1.2 获取地址信息 V
+            1.3 订单id     V
+            1.4 总数量,总价格,运费 V
+                先把数量和总价格定义为0
+            1.5 支付方式    V
+            1.6 订单状态    V
+
+        2. 再保存商品信息
+            OrderGoods
+                Redis hash sku_id:count
+                        set sku_id
+
+                获取商品信息
+                计算商品数量和价格
+                更新订单的数量和价格
+
+    """
+    def create(self, validated_data):
+
+
+        pass
