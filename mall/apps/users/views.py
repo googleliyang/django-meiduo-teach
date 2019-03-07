@@ -431,6 +431,22 @@ class AddressViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Update
 
         return super().create(request,*args,**kwargs)
 
+    def list(self, request, *args, **kwargs):
+        """
+        获取用户地址列表
+        """
+        # 获取所有地址
+        queryset = self.get_queryset()
+        # 创建序列化器
+        serializer = self.get_serializer(queryset, many=True)
+        user = self.request.user
+        # 响应
+        return Response({
+            'user_id': user.id,
+            'default_address_id': user.default_address_id,
+            'limit': 20,
+            'addresses': serializer.data,
+        })
 
 ######################浏览记录##################################
 
