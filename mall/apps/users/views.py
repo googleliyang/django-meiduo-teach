@@ -602,5 +602,24 @@ class UserHistoryAPIView(CreateAPIView):
 
 
 
+from rest_framework_jwt.views import ObtainJSONWebToken
+from carts.utils import merge_cookie_to_redis
+
+class UserAuthorizationView(ObtainJSONWebToken):
+
+    def post(self, request):
+        # 调用jwt扩展的方法，对用户登录的数据进行验证
+        response = super().post(request)
+
+        # 如果用户登录成功，进行购物车数据合并
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            # 表示用户登录成功
+            user = serializer.validated_data.get("user")
+            # 合并购物车
+            #merge_cart_cookie_to_redis(request, user, response)
+            response = merge_cookie_to_redis(request, user, response)
+
+        return response
 
 

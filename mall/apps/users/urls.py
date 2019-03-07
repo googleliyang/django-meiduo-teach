@@ -10,7 +10,8 @@ urlpatterns = [
     # 我们登陆的url 采用
     # users/auths/
 
-    url(r'^auths/',obtain_jwt_token),
+    # url(r'^auths/',obtain_jwt_token),
+    url(r'^auths/',views.UserAuthorizationView.as_view()),
     # url(r'^api-token-auth/',obtain_jwt_token),
 
 
