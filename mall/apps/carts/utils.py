@@ -1,7 +1,7 @@
 
 """
 需求:
-登陆实现 cookie数据的合并redis
+    登陆实现 cookie数据的合并redis
 步骤:
     登陆
     1.获取cookie数据
@@ -20,6 +20,34 @@
         最终的: {2:20,3:30,1:10}
         选中的: {1}
     3.合并
+
+
+
+    cookie数据
+        {1: {count:10,selected:True}, 3:{count:30,selected:False}}
+
+    redis数据
+        hash:  {2:20,3:100}
+        set:   {2,3}
+
+    合并前初始化记录 ( redis的数据 原则是不动的)
+        cart = {2:20,3:100}
+        cart_selected = {}
+
+    合并
+        1: {count:10,selected:True}
+            cart = {2:20,3:100} + {1:10}
+            cart_selected = {1}
+
+        3:{count:30,selected:False}
+            cart = {2:20,3:30} + {1:10}
+            cart_selected = {1}
+
+
+    最终的数据
+        cart = {2:20,3:30,1:10}
+        cart_selected = {1}
+
 """
 
 def merge_cookie_to_redis():

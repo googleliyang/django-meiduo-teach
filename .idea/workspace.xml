@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cd07279-6254-4dd7-8bf8-b88faf333963" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mall/apps/carts/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/carts/views.py" afterPath="$PROJECT_DIR$/mall/apps/carts/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/carts/utils.py" afterPath="$PROJECT_DIR$/mall/apps/carts/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,8 +48,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mall/apps/carts/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+            <state relative-caret-position="176">
+              <caret line="44" column="8" lean-forward="true" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -513,13 +512,6 @@
       <option name="presentableId" value="Default" />
       <updated>1550567630261</updated>
     </task>
-    <task id="LOCAL-00033" summary="保存邮箱的需求分析">
-      <created>1551081115172</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1551081115172</updated>
-    </task>
     <task id="LOCAL-00034" summary="通过APIView实现邮箱的保存">
       <created>1551082754945</created>
       <option name="number" value="00034" />
@@ -856,7 +848,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551929960361</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="合并的思路">
+      <created>1551931772081</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1551931772081</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -908,7 +907,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="分页和排序的实现" />
     <MESSAGE value="设置(取消)省市区和热销的分页" />
     <MESSAGE value="celery实现 列表页面的静态化" />
     <MESSAGE value="elasticsearch的分词操作" />
@@ -933,7 +931,8 @@
     <MESSAGE value="删除购物车数据" />
     <MESSAGE value="redis的数据验证(管道,hincrby,类型转换)" />
     <MESSAGE value="user的异常捕获" />
-    <option name="LAST_COMMIT_MESSAGE" value="user的异常捕获" />
+    <MESSAGE value="合并的思路" />
+    <option name="LAST_COMMIT_MESSAGE" value="合并的思路" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1478,8 +1477,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/carts/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+        <state relative-caret-position="176">
+          <caret line="44" column="8" lean-forward="true" selection-start-line="44" selection-start-column="8" selection-end-line="44" selection-end-column="8" />
           <folding />
         </state>
       </provider>
