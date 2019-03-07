@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from goods.models import SKU
-from orders.serializers import CartSKUSerializer, PlaceOrderSerialzier
+from orders.serializers import CartSKUSerializer, PlaceOrderSerialzier, OrderSerializer
 
 """
 提交订单界面的展示
@@ -105,3 +105,38 @@ class PlaceOrderAPIView(APIView):
 
 
 """
+
+"""
+提交订单
+
+需求:
+    当用户点击提交按钮的时候,我们需要让前端 将 用户信息, 地址,支付方式 提交给后端
+
+步骤:
+    1. 接收数据
+    2. 验证数据
+    3. 数据入库
+    4. 返回相应
+
+请求方式和路由
+    POST  orders/
+
+
+"""
+class OrderAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+
+        # 1. 接收数据
+        data = request.data
+        # 2. 验证数据
+        serializer = OrderSerializer(data=data)
+        serializer.is_valid()
+        # 3. 数据入库
+        serializer.save()
+        # 4. 返回相应
+        return Response(serializer.data)
+
+

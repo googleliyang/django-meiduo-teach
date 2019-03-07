@@ -29,3 +29,23 @@ class PlaceOrderSerialzier(serializers.Serializer):
 
     freight = serializers.DecimalField(label='运费',decimal_places=2,max_digits=10)
     skus = CartSKUSerializer(many=True)
+
+
+from orders.models import OrderInfo
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderInfo
+        fields = ('order_id', 'address', 'pay_method')
+        read_only_fields = ('order_id',)
+        extra_kwargs = {
+            'address': {
+                'write_only': True,
+                'required': True,
+            },
+            'pay_method': {
+                'write_only': True,
+                'required': True
+            }
+        }
+
+
