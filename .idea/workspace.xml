@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5cd07279-6254-4dd7-8bf8-b88faf333963" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/users/serializers.py" afterPath="$PROJECT_DIR$/mall/apps/users/serializers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/users/views.py" afterPath="$PROJECT_DIR$/mall/apps/users/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,12 +35,14 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mall/apps/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="460" column="58" lean-forward="false" selection-start-line="460" selection-start-column="58" selection-end-line="460" selection-end-column="58" />
+            <state relative-caret-position="206">
+              <caret line="467" column="18" lean-forward="false" selection-start-line="467" selection-start-column="18" selection-end-line="467" selection-end-column="18" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#9448#9697#0" expanded="false" />
-                <element signature="e#9753#10161#0" expanded="false" />
+                <element signature="e#9541#9790#0" expanded="false" />
+                <element signature="e#9846#10254#0" expanded="false" />
+                <element signature="e#10313#10512#0" expanded="false" />
+                <element signature="e#10622#10884#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -48,12 +51,12 @@
       <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mall/apps/users/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="300" column="0" lean-forward="false" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="301" column="3" lean-forward="false" selection-start-line="301" selection-start-column="3" selection-end-line="308" selection-end-column="11" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <element signature="e#2219#2316#0" expanded="false" />
-                <marker date="1551921137732" expanded="false" signature="4419:4589" ph="..." />
+                <marker date="1551921263745" expanded="false" signature="4419:4589" ph="..." />
               </folding>
             </state>
           </provider>
@@ -142,8 +145,8 @@
         <option value="$PROJECT_DIR$/mall/mall/settings.py" />
         <option value="$PROJECT_DIR$/mall/apps/carts/serialziers.py" />
         <option value="$PROJECT_DIR$/mall/apps/carts/views.py" />
-        <option value="$PROJECT_DIR$/mall/apps/users/serializers.py" />
         <option value="$PROJECT_DIR$/mall/apps/users/urls.py" />
+        <option value="$PROJECT_DIR$/mall/apps/users/serializers.py" />
         <option value="$PROJECT_DIR$/mall/apps/users/views.py" />
       </list>
     </option>
@@ -526,13 +529,6 @@
       <option name="presentableId" value="Default" />
       <updated>1550567630261</updated>
     </task>
-    <task id="LOCAL-00027" summary="根据openid判断是否绑定,绑定自动登陆">
-      <created>1550997009750</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1550997009750</updated>
-    </task>
     <task id="LOCAL-00028" summary="itsdangerous的基本使用">
       <created>1550998713214</created>
       <option name="number" value="00028" />
@@ -869,7 +865,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551921184600</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="地址删除">
+      <created>1551921208649</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1551921208649</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -921,7 +924,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="11-测试数据的导入" />
     <MESSAGE value="验证fdfs以及fdfs的代码抽取" />
     <MESSAGE value="首页静态化代码" />
     <MESSAGE value="定时任务" />
@@ -946,7 +948,8 @@
     <MESSAGE value="修改购物车的实现(cookie验证)" />
     <MESSAGE value="新增地址" />
     <MESSAGE value="地址列表" />
-    <option name="LAST_COMMIT_MESSAGE" value="地址列表" />
+    <MESSAGE value="地址删除" />
+    <option name="LAST_COMMIT_MESSAGE" value="地址删除" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1438,18 +1441,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mall/apps/users/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="300" column="0" lean-forward="false" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <element signature="e#2219#2316#0" expanded="false" />
-            <marker date="1551921137732" expanded="false" signature="4419:4589" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/users/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -1458,14 +1449,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mall/apps/users/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="301" column="3" lean-forward="false" selection-start-line="301" selection-start-column="3" selection-end-line="308" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2219#2316#0" expanded="false" />
+            <marker date="1551921263745" expanded="false" signature="4419:4589" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/users/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="460" column="58" lean-forward="false" selection-start-line="460" selection-start-column="58" selection-end-line="460" selection-end-column="58" />
+        <state relative-caret-position="206">
+          <caret line="467" column="18" lean-forward="false" selection-start-line="467" selection-start-column="18" selection-end-line="467" selection-end-column="18" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#9448#9697#0" expanded="false" />
-            <element signature="e#9753#10161#0" expanded="false" />
+            <element signature="e#9541#9790#0" expanded="false" />
+            <element signature="e#9846#10254#0" expanded="false" />
+            <element signature="e#10313#10512#0" expanded="false" />
+            <element signature="e#10622#10884#0" expanded="false" />
           </folding>
         </state>
       </provider>

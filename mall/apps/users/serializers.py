@@ -299,6 +299,15 @@ class AddressSerializer(serializers.ModelSerializer):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
 
+class AddressTitleSerializer(serializers.ModelSerializer):
+    """
+    地址标题
+    """
+
+    class Meta:
+        model = Address
+        fields = ('title',)
+
 
 ######################################################
 

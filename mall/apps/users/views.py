@@ -403,6 +403,8 @@ class UserEmailVerificationAPIView(APIView):
 
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.decorators import action
+from .serializers import AddressTitleSerializer
 class AddressViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.UpdateModelMixin,GenericViewSet):
     """
     用户地址新增与修改
@@ -459,6 +461,20 @@ class AddressViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Update
         address.save()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+    @action(methods=['put'], detail=True)
+    def title(self, request, pk=None, address_id=None):
+        """
+        修改标题
+        """
+        address = self.get_object()
+        serializer = AddressTitleSerializer(instance=address, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 ######################浏览记录##################################
 
 """  添加浏览记录
