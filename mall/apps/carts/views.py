@@ -79,9 +79,11 @@ x       y       z           n
 """
 # Create your views here.
 from django.http.response import JsonResponse
+import redis
 
 # carts
 from rest_framework import status
+
 class CartAPIView(APIView):
 
     # APIView 会对我们的身份进行验证
@@ -154,12 +156,43 @@ class CartAPIView(APIView):
             redis_conn = get_redis_connection('cart')
             #     6.2 保存数据
             # hash
-            redis_conn.hset('cart_%s'%user.id,sku_id,count)
+            # redis_conn.hset('cart_%s'%user.id,sku_id,count)
+            # HINCRBY  在当前情况下 可以理解为 累加
+            #   如果没有 field的数据,则 新增
+
+            # redis_conn.hincrby('cart_%s' % user.id, sku_id, count)
+            #
+            # # set  集合
+            # if selected:
+            #     redis_conn.sadd('cart_selected_%s' % user.id, sku_id)
+
+            # A. 创建一个管道
+            pl = redis_conn.pipeline()
+
+            # B. 通过管道来收集指令
+            pl.hincrby('cart_%s'%user.id,sku_id,count)
+
             # set  集合
             if selected:
-                redis_conn.sadd('cart_selected_%s'%user.id,sku_id)
+                pl.sadd('cart_selected_%s'%user.id,sku_id)
+
+            # C. 必须要执行管道
+            pl.execute()
+
             #     6.3 返回相应
             return Response(serializer.data)
+
+            """
+            A:  在吗?
+                吃了吗?
+
+
+            B
+
+
+            A:  在吗? 吃了吗?
+
+            """
 
         else:
             # 7.未登录用户cookie
@@ -289,8 +322,8 @@ class CartAPIView(APIView):
                 else:
                     selected=False
 
-                cookie_cart[id] = {
-                    'count':count,
+                cookie_cart[int(id)] = {
+                    'count':int(count),
                     # 'selected': id in redis_selected_ids
                     'selected': selected
                 }
