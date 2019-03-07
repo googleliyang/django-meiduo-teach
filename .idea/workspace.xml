@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cd07279-6254-4dd7-8bf8-b88faf333963" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mall/apps/carts/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mall/apps/carts/views.py" afterPath="$PROJECT_DIR$/mall/apps/carts/views.py" />
     </list>
@@ -13,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/meiduo_37$manage.coverage" NAME="manage Coverage Results" MODIFIED="1551929853478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mall" />
+    <SUITE FILE_PATH="coverage/meiduo_37$manage.coverage" NAME="manage Coverage Results" MODIFIED="1551930047435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mall" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -31,25 +32,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mall/apps/carts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="294" column="12" lean-forward="true" selection-start-line="294" selection-start-column="12" selection-end-line="294" selection-end-column="12" />
+            <state relative-caret-position="229">
+              <caret line="503" column="23" lean-forward="false" selection-start-line="503" selection-start-column="23" selection-end-line="503" selection-end-column="23" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <element signature="e#7381#8411#0" expanded="false" />
-                <element signature="e#8441#8870#0" expanded="false" />
+                <element signature="e#7448#8478#0" expanded="false" />
+                <element signature="e#8508#8937#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.virtualenvs/py3_django_1.11/local/lib/python3.5/site-packages/rest_framework/views.py">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mall/apps/carts/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="53">
-              <caret line="482" column="0" lean-forward="false" selection-start-line="482" selection-start-column="0" selection-end-line="482" selection-end-column="0" />
+            <state relative-caret-position="228">
+              <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -80,7 +81,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/front/js/host.js" />
         <option value="$PROJECT_DIR$/front/register.html" />
         <option value="$PROJECT_DIR$/front/js/login.js" />
         <option value="$PROJECT_DIR$/front/js/register.js" />
@@ -131,6 +131,7 @@
         <option value="$PROJECT_DIR$/mall/apps/users/serializers.py" />
         <option value="$PROJECT_DIR$/mall/apps/users/views.py" />
         <option value="$PROJECT_DIR$/mall/apps/carts/views.py" />
+        <option value="$PROJECT_DIR$/mall/apps/carts/utils.py" />
       </list>
     </option>
   </component>
@@ -512,13 +513,6 @@
       <option name="presentableId" value="Default" />
       <updated>1550567630261</updated>
     </task>
-    <task id="LOCAL-00032" summary="获取个人用户信息(三级视图)">
-      <created>1551079775319</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1551079775319</updated>
-    </task>
     <task id="LOCAL-00033" summary="保存邮箱的需求分析">
       <created>1551081115172</created>
       <option name="number" value="00033" />
@@ -855,7 +849,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551929012692</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="user的异常捕获">
+      <created>1551929960361</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1551929960361</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -872,7 +873,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34820718" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.915547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.63723606" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3627639" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -907,7 +908,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="获取热销数据" />
     <MESSAGE value="分页和排序的实现" />
     <MESSAGE value="设置(取消)省市区和热销的分页" />
     <MESSAGE value="celery实现 列表页面的静态化" />
@@ -932,7 +932,8 @@
     <MESSAGE value="默认地址" />
     <MESSAGE value="删除购物车数据" />
     <MESSAGE value="redis的数据验证(管道,hincrby,类型转换)" />
-    <option name="LAST_COMMIT_MESSAGE" value="redis的数据验证(管道,hincrby,类型转换)" />
+    <MESSAGE value="user的异常捕获" />
+    <option name="LAST_COMMIT_MESSAGE" value="user的异常捕获" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1019,12 +1020,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>155</line>
+          <line>158</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>202</line>
+          <line>205</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1034,52 +1035,52 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>295</line>
+          <line>298</line>
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>338</line>
+          <line>341</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>439</line>
+          <line>445</line>
           <option name="timeStamp" value="77" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>423</line>
+          <line>429</line>
           <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>408</line>
+          <line>411</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>514</line>
+          <line>523</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>500</line>
+          <line>509</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>490</line>
+          <line>496</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>327</line>
+          <line>330</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mall/apps/carts/views.py</url>
-          <line>169</line>
+          <line>172</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
       </breakpoints>
@@ -1095,13 +1096,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/front/oauth_callback.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="76" column="7" lean-forward="true" selection-start-line="75" selection-start-column="36" selection-end-line="76" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/front/js/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
@@ -1472,13 +1466,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mall/apps/carts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="294" column="12" lean-forward="true" selection-start-line="294" selection-start-column="12" selection-end-line="294" selection-end-column="12" />
+        <state relative-caret-position="229">
+          <caret line="503" column="23" lean-forward="false" selection-start-line="503" selection-start-column="23" selection-end-line="503" selection-end-column="23" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <element signature="e#7381#8411#0" expanded="false" />
-            <element signature="e#8441#8870#0" expanded="false" />
+            <element signature="e#7448#8478#0" expanded="false" />
+            <element signature="e#8508#8937#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mall/apps/carts/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="18" column="16" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>

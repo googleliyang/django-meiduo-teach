@@ -146,7 +146,10 @@ class CartAPIView(APIView):
         count = serializer.validated_data.get('count')
         selected = serializer.validated_data.get('selected')
         # 4.获取用户信息
-        user = request.user
+        try:
+            user = request.user
+        except Exception:
+            user = None
         # 5.根据用户信息进行判断
         # is_authenticated 认证过的,也就是说 是登陆的用户
         if user is not None and user.is_authenticated:
@@ -415,7 +418,10 @@ class CartAPIView(APIView):
         count = serializer.validated_data.get('count')
         selected = serializer.validated_data.get('selected')
         # 4. 获取用户信息
-        user = request.user
+        try:
+            user = request.user
+        except Exception:
+            user = None
         # 5. 根据用户信息进行判断
         if user is not None and user.is_authenticated:
 
@@ -492,7 +498,10 @@ class CartAPIView(APIView):
         # 2.验证商品id(验证省略)
         sku_id = data.get('sku_id')
         # 3.获取用户信息
-        user = request.user
+        try:
+            user = request.user
+        except Exception:
+            user = None
         # 4.根据用户进行判断
         if user is not None and user.is_authenticated:
 
