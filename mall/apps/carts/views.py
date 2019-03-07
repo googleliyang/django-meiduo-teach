@@ -292,7 +292,10 @@ class CartAPIView(APIView):
     def get(self,request):
 
         # 1. 获取用户信息
-        user = request.user
+        try:
+            user = request.user
+        except Exception:
+            user = None
         # 2. 判断用户信息
         if user is not None and user.is_authenticated:
 
