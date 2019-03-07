@@ -81,7 +81,7 @@ x       y       z           n
 from django.http.response import JsonResponse
 
 # carts
-
+from rest_framework import status
 class CartAPIView(APIView):
 
     # APIView 会对我们的身份进行验证
@@ -422,6 +422,76 @@ class CartAPIView(APIView):
 
             response.set_cookie('cart',cookie_save_str,3600)
             #     7.6 返回相应
+            return response
+
+
+
+    """
+    需求:
+     当用户点击删除按钮的时候,需要让前端将商品id 和用户信息传递过来
+
+    步骤:
+     # 1.接收商品id
+     # 2.验证商品id
+     # 3.获取用户信息
+     # 4.根据用户进行判断
+     # 5.登陆用户操作redis
+     #    5.1 连接redis
+     #    5.2 删除数据 hash,set
+     #    5.3 返回相应
+     # 6.未登录用户操作cookie
+     #    6.1 先获取cookie数据
+     #    6.2 判断cookie数据是否存在
+     #    6.3 删除
+     #    6.4 将字典进行加密
+     #    6.5 设置cookie,返回相应
+
+
+    """
+
+    def delete(self,request):
+
+        # 1.接收商品id
+        data = request.data
+        # 2.验证商品id(验证省略)
+        sku_id = data.get('sku_id')
+        # 3.获取用户信息
+        user = request.user
+        # 4.根据用户进行判断
+        if user is not None and user.is_authenticated:
+
+            # 5.登陆用户操作redis
+            #    5.1 连接redis
+            redis_conn = get_redis_connection('cart')
+            #    5.2 删除数据 hash,set
+            # hash
+            redis_conn.hdel('cart_%s'%user.id,sku_id)
+            # set
+            redis_conn.srem('cart_selected_%s'%user.id,sku_id)
+            #    5.3 返回相应
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+
+            # 6.未登录用户操作cookie
+            #    6.1 先获取cookie数据
+            cookie_str = request.COOKIES.get('cart')
+            #    6.2 判断cookie数据是否存在
+            if cookie_str is not None:
+                cookie_cart = pickle.loads(base64.b64decode(cookie_str))
+            else:
+                cookie_cart = {}
+            #    6.3 删除
+            if sku_id in cookie_cart:
+                del cookie_cart[sku_id]
+            #    6.4 将字典进行加密
+            cookie_save_str = base64.b64encode(pickle.dumps(cookie_cart)).decode()
+            #    6.5 设置cookie,返回相应
+            response = Response(status=status.HTTP_204_NO_CONTENT)
+
+            response.set_cookie('cart',cookie_save_str,3600)
+
             return response
 
 
