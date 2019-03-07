@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from goods.models import SKU
-from orders.serializers import CartSKUSerializer
+from orders.serializers import CartSKUSerializer, PlaceOrderSerialzier
 
 """
 提交订单界面的展示
@@ -60,7 +60,7 @@ class PlaceOrderAPIView(APIView):
         for sku in skus:
             sku.count = redis_selected_cart[sku.id]
         # 4.将对象列表转换为字典
-        serializer = CartSKUSerializer(skus,many=True)
+        # serializer = CartSKUSerializer(skus,many=True)
         # 5.返回相应
 
         # 钱
@@ -70,13 +70,16 @@ class PlaceOrderAPIView(APIView):
         # 100/3 = 33.33    33.33   33.33  33.34
         freight = Decimal('10.00')
 
-        data = {
-            'skus':serializer.data,
-            'freight':freight
-        }
-        return Response(data)
+        # data = {
+        #     'skus':serializer.data,
+        #     'freight':freight
+        # }
+        # return Response(data)
 
-        # return Response(serializer.data)
+        serializer = PlaceOrderSerialzier({'freight':freight,
+                                           'skus':skus})
+
+        return Response(serializer.data)
 """
 [
   {
