@@ -1,3 +1,65 @@
 from django.shortcuts import render
 
 # Create your views here.
+from django_redis import get_redis_connection
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from goods.models import SKU
+from orders.serializers import CartSKUSerializer
+
+"""
+提交订单界面的展示
+
+需求:
+    1.必须是登陆用户才可以访问此界面(用户地址信息确定的)
+    当登陆用户访问此界面的时候,需要让前端将用户信息传递给后端
+
+思路:
+    # 1.接收用户信息,并验证用户信息
+    # 2.根据用户信息获取redis中选中商品的id  [id,id,id]
+    # 3.根据id获取商品的详细信息 [sku,sku,sku]
+    # 4.将对象列表转换为字典
+    # 5.返回相应
+
+请求方式和路由
+    GET     orders/placeorders/
+
+
+
+"""
+from rest_framework.permissions import IsAuthenticated
+class PlaceOrderAPIView(APIView):
+
+    # 接收用户信息
+    # 添加权限
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request):
+        # 1.接收用户信息, 并验证用户信息
+        user = request.user
+        # 2.根据用户信息获取redis中选中商品的id  [id,id,id]
+        redis_conn = get_redis_connection('cart')
+
+        # hash   {sku_id:count }
+        redis_id_counts = redis_conn.hgetall('cart_%s'%user.id)
+        # set
+        redis_selected_ids = redis_conn.smembers('cart_selected_%s'%user.id)
+
+        # 类型的转换, 在类型转换过程中,我们重新组织(获取)选中的商品的信息
+
+        redis_selected_cart = {}
+        # {sku_id:count}
+        for sku_id in redis_selected_ids:
+            redis_selected_cart[int(sku_id)] = int(redis_id_counts[sku_id])
+
+        ids = redis_selected_cart.keys()
+        # 3.根据id获取商品的详细信息 [sku,sku,sku]
+        skus = SKU.objects.filter(pk__in=ids)
+
+        for sku in skus:
+            sku.count = redis_selected_cart[sku.id]
+        # 4.将对象列表转换为字典
+        serializer = CartSKUSerializer(skus,many=True)
+        # 5.返回相应
+        return Response(serializer.data)
