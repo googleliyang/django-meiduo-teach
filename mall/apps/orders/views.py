@@ -62,4 +62,43 @@ class PlaceOrderAPIView(APIView):
         # 4.将对象列表转换为字典
         serializer = CartSKUSerializer(skus,many=True)
         # 5.返回相应
-        return Response(serializer.data)
+
+        # 钱
+        # 最好使用 货比类型
+        from decimal import Decimal
+
+        # 100/3 = 33.33    33.33   33.33  33.34
+        freight = Decimal('10.00')
+
+        data = {
+            'skus':serializer.data,
+            'freight':freight
+        }
+        return Response(data)
+
+        # return Response(serializer.data)
+"""
+[
+  {
+    "id": 1,
+    "name": "Apple MacBook Pro 13.3英寸笔记本 银色",
+    "default_image_url": "http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrPB4GAWkTlAAGuN6wB9fU4220429",
+    "price": "11388.00",
+    "count": 11
+  },
+  {
+    "id": 10,
+    "name": "华为 HUAWEI P10 Plus 6GB+128GB 钻雕金 移动联通电信4G手机 双卡双待",
+    "default_image_url": "http://image.meiduo.site:8888/group1/M00/00/02/CtM3BVrRchWAMc8rAARfIK95am88158618",
+    "price": "3788.00",
+    "count": 1
+  }
+]
+
+{
+    skus: serializer.data,
+    运费:10
+}
+
+
+"""
