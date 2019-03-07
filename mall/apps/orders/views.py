@@ -132,7 +132,7 @@ class OrderAPIView(APIView):
         # 1. 接收数据
         data = request.data
         # 2. 验证数据
-        serializer = OrderSerializer(data=data)
+        serializer = OrderSerializer(data=data,context={'request':request})
         serializer.is_valid()
         # 3. 数据入库
         serializer.save()

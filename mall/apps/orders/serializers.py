@@ -1,3 +1,4 @@
+from decimal import Decimal
 from rest_framework import serializers
 
 from goods.models import SKU
@@ -72,6 +73,54 @@ class OrderSerializer(serializers.ModelSerializer):
 
     """
     def create(self, validated_data):
+        # 1. 先生成订单信息
+        #     OrderInfo
+        #     1.1 获取用户信息
+        user = self.context['request'].user
+        #     1.2 获取地址信息 V
+        address = validated_data.get('address')
+        #     1.3 订单id     V
+        # 年月日时分秒 + 用户id(9位)
+        from django.utils import timezone
+        # Y Year
+        # m month
+        # d day
+        # H Hour
+        # M Minute
+        # S Second
+        order_id = timezone.now().strftime('%Y%m%d%H%M%S') + '%09d'%user.id
+        #     1.4 总数量,总价格,运费 V
+        #         先把数量和总价格定义为0
+        total_count = 0
+        total_amount = Decimal('0')
+        freight = Decimal('10.00')
+        #     1.5 支付方式    V
+        # 1 表示 货到付款
+        # 2 表示 支付宝
+        pay_method = validated_data.get('pay_method')
+        #     1.6 订单状态    V
+        # 订单状态是根据支付方式来决定的
+        # if pay_method == 1:
+        #     status = 2
+        # else:
+        #     status = 1
 
+        # cash 是现金的意思
+        if pay_method == OrderInfo.PAY_METHODS_ENUM['CASH']:
+            status = OrderInfo.ORDER_STATUS_ENUM['UNSEND']
+        else:
+            status = OrderInfo.ORDER_STATUS_ENUM['UNPAID']
+
+
+        order = OrderInfo.objects.create(
+            order_id=order_id,
+            user = user,
+            address=address,
+            total_count=total_count,
+            total_amount=total_amount,
+            freight=freight,
+            pay_method=pay_method,
+            status=status
+        )
 
         pass
