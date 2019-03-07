@@ -385,21 +385,51 @@ class UserEmailVerificationAPIView(APIView):
     # AddressSerializer(instance=,)
 
 
-class UserAddressAPIView(APIView):
-    # 1.只有登陆用户才可以访问
+# class UserAddressAPIView(APIView):
+#     # 1.只有登陆用户才可以访问
+#     permission_classes = [IsAuthenticated]
+#     def post(self,request):
+#         #
+#         # 2.接收数据
+#         data = request.data
+#         # 3.校验数据
+#         serializer = AddressSerializer(data=data,context={'request':request,
+#                                                           'view':self})
+#         serializer.is_valid(raise_exception=True)
+#         # 4.数据入库
+#         serializer.save()
+#         # 5.返回相应
+#         return Response(serializer.data)
+
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
+class AddressViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.UpdateModelMixin,GenericViewSet):
+    """
+    用户地址新增与修改
+    list GET: /users/addresses/
+    create POST: /users/addresses/
+    destroy DELETE: /users/addresses/
+    action PUT: /users/addresses/pk/status/
+    action PUT: /users/addresses/pk/title/
+    """
+
+    #制定序列化器
+    serializer_class = AddressSerializer
+    #添加用户权限
     permission_classes = [IsAuthenticated]
-    def post(self,request):
-        #
-        # 2.接收数据
-        data = request.data
-        # 3.校验数据
-        serializer = AddressSerializer(data=data,context={'request':request,
-                                                          'view':self})
-        serializer.is_valid(raise_exception=True)
-        # 4.数据入库
-        serializer.save()
-        # 5.返回相应
-        return Response(serializer.data)
+    #由于用户的地址有存在删除的状态,所以我们需要对数据进行筛选
+    def get_queryset(self):
+        return self.request.user.addresses.filter(is_deleted=False)
+
+    def create(self, request, *args, **kwargs):
+        """
+        保存用户地址数据
+        """
+        count = request.user.addresses.count()
+        if count >= 20:
+            return Response({'message':'保存地址数量已经达到上限'},status=status.HTTP_400_BAD_REQUEST)
+
+        return super().create(request,*args,**kwargs)
 
 
 ######################浏览记录##################################

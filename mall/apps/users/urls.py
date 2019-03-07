@@ -21,10 +21,16 @@ urlpatterns = [
 
     url(r'^emails/verification/$',views.UserEmailVerificationAPIView.as_view()),
 
-    url(r'^addresses/$',views.UserAddressAPIView.as_view()),
+    # url(r'^addresses/$',views.UserAddressAPIView.as_view()),
 
     url(r'^browerhistories/$',views.UserHistoryAPIView.as_view()),
 ]
+
+from .views import AddressViewSet
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register(r'addresses',AddressViewSet,base_name='address')
+urlpatterns += router.urls
 
 """
 
