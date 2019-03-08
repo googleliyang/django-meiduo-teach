@@ -1,4 +1,6 @@
 from decimal import Decimal
+
+from django_redis import get_redis_connection
 from rest_framework import serializers
 
 from goods.models import SKU
@@ -32,7 +34,9 @@ class PlaceOrderSerialzier(serializers.Serializer):
     skus = CartSKUSerializer(many=True)
 
 
-from orders.models import OrderInfo
+from orders.models import OrderInfo, OrderGoods
+
+
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderInfo
@@ -132,4 +136,51 @@ class OrderSerializer(serializers.ModelSerializer):
             status=status
         )
 
-        pass
+        # 1.Redis
+        redis_conn = get_redis_connection('cart')
+        # 2.hash    sku_id:count
+        # {sku_id:count}
+        redis_id_counts = redis_conn.hgetall('cart_%s'%user.id)
+        # 3.set     sku_id
+        # [id,id,id]
+        redis_selected_ids = redis_conn.smembers('cart_selected_%s'%user.id)
+
+        # 4.在将redis的数据类型转换过程中,重新构造一个 选中的信息
+        redis_selecteds = {}
+        for sku_id in redis_selected_ids:
+            redis_selecteds[int(sku_id)]=int(redis_id_counts[sku_id])
+
+        #     redis_selecteds = {sku_id:count}
+        # 5. 根据id获取商品信息 [sku,sku,sku,sku]
+
+        ids = redis_selecteds.keys()
+        skus = SKU.objects.filter(pk__in=ids)
+
+
+        # 6. 遍历商品列表
+        for sku in skus:
+            #     7. 判断购买量和库存的关系
+            count = redis_selecteds[sku.id]
+            if sku.stock < count:
+                raise serializers.ValidationError('库存不足')
+
+            #     8. 库存减少,销量增加
+            sku.stock -= count
+            sku.sales += count
+            sku.save()
+            #     9. 累加商品数量和价格(将累加计算的值 更新到订单信息中)
+            order.total_count += count
+            order.total_amount += (count*sku.price)
+            #     10. 保存订单商品
+            OrderGoods.objects.create(
+                order = order,
+                sku=sku,
+                count=count,
+                price=sku.price
+            )
+
+        # 因为我们在遍历商品信息的时候 对数量和价格进行了累加计算
+        order.save()
+
+        return order
+
