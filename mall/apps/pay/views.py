@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from orders.models import OrderInfo
+from pay.models import Payment
 
 """
 第一步：创建应用
@@ -102,3 +103,67 @@ class PayUrlAPIView(APIView):
         alipay_url = 'https://openapi.alipaydev.com/gateway.do?' + order_string
 
         return Response({'alipay_url':alipay_url})
+
+
+    """
+    当支付成功之后,在回调页面的请求参数中 有我们需要的数据 (支付宝的交易流水号和商户的交易id)
+    这个时候 让前端 传递给后端
+
+    思路:
+        1. 接收数据
+        2. 按照支付宝的文档进行校验
+        3.如果支付成功,则将 支付宝流水号和商品交易号保存起来
+        4. 更新一下订单的状态
+
+        put   /pay/stuts/?key=xxxx...
+    """
+class PayStatusAPIView(APIView):
+
+    def put(self,request):
+
+
+        app_private_key_string = open(settings.APP_PRIVATE_KEY_PATH).read()
+        alipay_public_key_string = open(settings.ALIPAY_PUBLIC_KEY_PATH).read()
+
+        alipay = AliPay(
+            appid=settings.ALIPAY_APPID,
+            app_notify_url=None,  # 默认回调url
+            app_private_key_string=app_private_key_string,
+            # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            alipay_public_key_string=alipay_public_key_string,
+            sign_type="RSA2",  # RSA 或者 RSA2
+            debug=settings.DEBUG  # 默认False
+        )
+
+
+        data = request.query_params.dict()
+        # sign 不能参与签名验证
+        signature = data.pop("sign")
+
+
+        # verify
+        success = alipay.verify(data, signature)
+        if success:
+            # 成功
+            # 获取 支付宝的交易流水号 和 商家的交易流水号
+            # trade_no 支付宝
+            # out_trade_no 商家
+            trade_no = data.get('trade_no')
+            out_trade_no = data.get('out_trade_no')
+
+            Payment.objects.create(
+                order_id=out_trade_no,
+                trade_id=trade_no
+            )
+
+            # 更新订单的状态
+            # OrderInfo.objects.filter(order_id=out_trade_no).update(status=2)
+            OrderInfo.objects.filter(order_id=out_trade_no).update(status=OrderInfo.ORDER_STATUS_ENUM['UNSEND'])
+
+            return Response({'trade_id':trade_no})
+        else:
+            # 失败
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
