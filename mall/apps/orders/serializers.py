@@ -86,6 +86,13 @@ class OrderSerializer(serializers.ModelSerializer):
 
     """
     def create(self, validated_data):
+
+
+        # 前边省略了很多数据库的操作
+
+
+
+
         # 1. 先生成订单信息
         #     OrderInfo
         #     1.1 获取用户信息
@@ -124,63 +131,77 @@ class OrderSerializer(serializers.ModelSerializer):
         else:
             status = OrderInfo.ORDER_STATUS_ENUM['UNPAID']
 
+        # 部分代码使用事务
+        from django.db import transaction
 
-        order = OrderInfo.objects.create(
-            order_id=order_id,
-            user = user,
-            address=address,
-            total_count=total_count,
-            total_amount=total_amount,
-            freight=freight,
-            pay_method=pay_method,
-            status=status
-        )
+        with transaction.atomic():
 
-        # 1.Redis
-        redis_conn = get_redis_connection('cart')
-        # 2.hash    sku_id:count
-        # {sku_id:count}
-        redis_id_counts = redis_conn.hgetall('cart_%s'%user.id)
-        # 3.set     sku_id
-        # [id,id,id]
-        redis_selected_ids = redis_conn.smembers('cart_selected_%s'%user.id)
+            # 事务的开始的点
+            save_point = transaction.savepoint()
 
-        # 4.在将redis的数据类型转换过程中,重新构造一个 选中的信息
-        redis_selecteds = {}
-        for sku_id in redis_selected_ids:
-            redis_selecteds[int(sku_id)]=int(redis_id_counts[sku_id])
-
-        #     redis_selecteds = {sku_id:count}
-        # 5. 根据id获取商品信息 [sku,sku,sku,sku]
-
-        ids = redis_selecteds.keys()
-        skus = SKU.objects.filter(pk__in=ids)
-
-
-        # 6. 遍历商品列表
-        for sku in skus:
-            #     7. 判断购买量和库存的关系
-            count = redis_selecteds[sku.id]
-            if sku.stock < count:
-                raise serializers.ValidationError('库存不足')
-
-            #     8. 库存减少,销量增加
-            sku.stock -= count
-            sku.sales += count
-            sku.save()
-            #     9. 累加商品数量和价格(将累加计算的值 更新到订单信息中)
-            order.total_count += count
-            order.total_amount += (count*sku.price)
-            #     10. 保存订单商品
-            OrderGoods.objects.create(
-                order = order,
-                sku=sku,
-                count=count,
-                price=sku.price
+            order = OrderInfo.objects.create(
+                order_id=order_id,
+                user = user,
+                address=address,
+                total_count=total_count,
+                total_amount=total_amount,
+                freight=freight,
+                pay_method=pay_method,
+                status=status
             )
 
-        # 因为我们在遍历商品信息的时候 对数量和价格进行了累加计算
-        order.save()
+            # 1.Redis
+            redis_conn = get_redis_connection('cart')
+            # 2.hash    sku_id:count
+            # {sku_id:count}
+            redis_id_counts = redis_conn.hgetall('cart_%s'%user.id)
+            # 3.set     sku_id
+            # [id,id,id]
+            redis_selected_ids = redis_conn.smembers('cart_selected_%s'%user.id)
+
+            # 4.在将redis的数据类型转换过程中,重新构造一个 选中的信息
+            redis_selecteds = {}
+            for sku_id in redis_selected_ids:
+                redis_selecteds[int(sku_id)]=int(redis_id_counts[sku_id])
+
+            #     redis_selecteds = {sku_id:count}
+            # 5. 根据id获取商品信息 [sku,sku,sku,sku]
+
+            ids = redis_selecteds.keys()
+            skus = SKU.objects.filter(pk__in=ids)
+
+
+            # 6. 遍历商品列表
+            for sku in skus:
+                #     7. 判断购买量和库存的关系
+                count = redis_selecteds[sku.id]
+                if sku.stock < count:
+
+                    # 这里可能失败
+                    # 回滚到我们记录的那个事务点
+                    transaction.savepoint_rollback(save_point)
+
+                    raise serializers.ValidationError('库存不足')
+
+                #     8. 库存减少,销量增加
+                sku.stock -= count
+                sku.sales += count
+                sku.save()
+                #     9. 累加商品数量和价格(将累加计算的值 更新到订单信息中)
+                order.total_count += count
+                order.total_amount += (count*sku.price)
+                #     10. 保存订单商品
+                OrderGoods.objects.create(
+                    order = order,
+                    sku=sku,
+                    count=count,
+                    price=sku.price
+                )
+
+            # 因为我们在遍历商品信息的时候 对数量和价格进行了累加计算
+            order.save()
+
+            transaction.savepoint_commit(save_point)
 
         return order
 
