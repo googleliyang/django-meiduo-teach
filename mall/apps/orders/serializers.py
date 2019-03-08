@@ -64,11 +64,20 @@ class OrderSerializer(serializers.ModelSerializer):
 
         2. 再保存商品信息
             OrderGoods
-                Redis hash sku_id:count
-                        set sku_id
 
-                获取商品信息
-                计算商品数量和价格
+                1.Redis
+                2.hash    sku_id:count
+                3.set     sku_id
+                4.在将redis的数据类型转换过程中,重新构造一个 选中的信息
+                    redis_selecteds = {sku_id:count}
+                5. 根据id获取商品信息 [sku,sku,sku,sku]
+                6. 遍历商品列表
+                    7. 判断购买量和库存的关系
+                    8. 库存减少,销量增加
+                    9. 累加商品数量和价格(将累加计算的值 更新到订单信息中)
+                    10. 保存订单商品
+
+
                 更新订单的数量和价格
 
     """
