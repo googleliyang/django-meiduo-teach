@@ -184,9 +184,37 @@ class OrderSerializer(serializers.ModelSerializer):
                     raise serializers.ValidationError('库存不足')
 
                 #     8. 库存减少,销量增加
-                sku.stock -= count
-                sku.sales += count
-                sku.save()
+                import time
+                time.sleep(7)
+
+                # sku.stock -= count
+                # sku.sales += count
+                # sku.save()
+
+                # 乐观锁
+
+                # 1. 先查询(记录)一次 库存
+                old_stock = sku.stock           # 10
+
+                # 2. 我们把更新的数据 先计算出来
+
+                new_stock = sku.stock-count
+                new_sales= sku.sales + count
+
+                #3. 更新的时候再查询一次,如果一致则更新
+                # 更新操作会返回受影响的行数 1 表示更新成功
+                # 0 表示更新失败
+                result = SKU.objects.filter(pk=sku.id,stock=old_stock).update(stock=new_stock,
+                                                                     sales=new_sales)
+
+                if result == 0:
+                    #说明更新失败了
+                    # 说明下单失败了
+                    transaction.savepoint_rollback(save_point)
+                    raise serializers.ValidationError('下单失败')
+
+
+
                 #     9. 累加商品数量和价格(将累加计算的值 更新到订单信息中)
                 order.total_count += count
                 order.total_amount += (count*sku.price)
@@ -205,3 +233,19 @@ class OrderSerializer(serializers.ModelSerializer):
 
         return order
 
+"""
+               乐观锁
+肉包子      10                 3
+
+甲       先查询一次: 10
+        更新数据的时候,再查询一次: 10   10==10  10-7=3
+
+
+乙       先查询一次: 10
+        更新数据的时候,再查询一次: 3        10 != 3  不操作数据了
+
+
+乙       先查询一次: 3
+        更新数据的时候,再查询一次: 3        3 == 3  操作数据了
+
+"""
