@@ -86,6 +86,7 @@ INSTALLED_APPS = [
 
     'haystack',
     'orders.apps.OrdersConfig',
+    'pay.apps.PayConfig',
 ]
 
 # 定时任务
