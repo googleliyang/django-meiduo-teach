@@ -185,7 +185,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
                 #     8. 库存减少,销量增加
                 import time
-                time.sleep(7)
+                # time.sleep(7)
 
                 # sku.stock -= count
                 # sku.sales += count
@@ -234,6 +234,14 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
 """
+
+A:  10
+B:  10
+
+甲:  A:6,B:6
+
+乙:  B:6:A:6
+
                乐观锁
 肉包子      10                 3
 
