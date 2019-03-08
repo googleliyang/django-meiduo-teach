@@ -156,6 +156,7 @@ class PayStatusAPIView(APIView):
                 trade_id=trade_no
             )
 
+
             # 更新订单的状态
             # OrderInfo.objects.filter(order_id=out_trade_no).update(status=2)
             OrderInfo.objects.filter(order_id=out_trade_no).update(status=OrderInfo.ORDER_STATUS_ENUM['UNSEND'])

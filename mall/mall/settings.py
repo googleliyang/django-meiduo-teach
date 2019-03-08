@@ -87,6 +87,9 @@ INSTALLED_APPS = [
     'haystack',
     'orders.apps.OrdersConfig',
     'pay.apps.PayConfig',
+'xadmin',
+    'crispy_forms',
+    'reversion',
 ]
 
 # 定时任务

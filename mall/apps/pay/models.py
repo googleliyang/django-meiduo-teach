@@ -16,5 +16,7 @@ class Payment(BaseModel):
     # 支付宝的交易流水号
     trade_id = models.CharField(max_length=100, unique=True, null=True, blank=True, verbose_name="支付编号")
 
+
+
     class Meta:
         db_table = 'tb_payment'
