@@ -1,7 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from orders.models import OrderInfo
 
 """
 第一步：创建应用
@@ -43,8 +46,59 @@ from rest_framework.views import APIView
 
 
 """
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from alipay import AliPay
+from mall import settings
+
 class PayUrlAPIView(APIView):
 
-    def get(self,request,order_id):
+    permission_classes = [IsAuthenticated]
 
-        pass
+    def get(self,request,order_id):
+        # 1.接收订单order_id
+        # 2.根据订单id查询订单信息(金额 订单的支付状态,订单的支付方式)
+        try:
+            # 为了让订单查询的更准确,我们需要再额外添加 几个查询条件
+            # 1.查询未支付的
+            # 2.用户
+            order = OrderInfo.objects.get(order_id=order_id,
+                                          status=OrderInfo.ORDER_STATUS_ENUM['UNPAID'],
+                                          user=request.user)
+        except OrderInfo.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # 3. 创建alipay实例对象
+
+
+        app_private_key_string = open(settings.APP_PRIVATE_KEY_PATH).read()
+        alipay_public_key_string = open(settings.ALIPAY_PUBLIC_KEY_PATH).read()
+
+
+        alipay = AliPay(
+            appid=settings.ALIPAY_APPID,
+            app_notify_url=None,  # 默认回调url
+            app_private_key_string=app_private_key_string,
+            # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+            alipay_public_key_string=alipay_public_key_string,
+            sign_type="RSA2",  # RSA 或者 RSA2
+            debug = settings.DEBUG  # 默认False
+        )
+
+        # 4. 调用alipay的支付接口 生成 order_string
+        # 如果你是 Python 3的用户，使用默认的字符串即可
+        subject = "测试订单"
+
+        # 电脑网站支付，需要跳转到https://openapi.alipay.com/gateway.do? + order_string
+        order_string = alipay.api_alipay_trade_page_pay(
+            out_trade_no=order_id,
+            total_amount=str(order.total_amount), # decemal 需要转换为字符串
+            subject=subject,
+            return_url="http://www.meiduo.site:8080/pay_success.html"
+        )
+
+        #app_id=2016091600523030&biz_content=%7B%22subject%22%3A%22%5Cu6d4b%5Cu8bd5%5Cu8ba2%5Cu5355%22%2C%22out_trade_no%22%3A%2220190308040334000000010%22%2C%22total_amount%22%3A%2234164.00%22%2C%22product_code%22%3A%22FAST_INSTANT_TRADE_PAY%22%7D&charset=utf-8&method=alipay.trade.page.pay&return_url=http%3A%2F%2Fwww.meiduo.site%3A8080%2Fpay_success.html&sign_type=RSA2&timestamp=2019-03-08+16%3A31%3A56&version=1.0&sign=fAZ1mvP9No1Yfo1vqBiUn4MEFwp37qaVffm8Qsa2vS5LXXXwpogJYbO%2FNsvUHzVswCawjqaeodzl6iXvPNxj1GYb0Lm4T7mO3m%2F9odRF9pzs0GOJrXvxAyzBHYGjriJiljZAxlgcu%2BLZ2uUOsqZB1Stb96etP3wZEtkWPQ8lBUnECb8z1Au%2FXcw%2Bl4x%2F3Zg4ojSC4eiUPbG1ZebR7XCfdQSnEIQL59affczuPGFRxBwcGcFl2aWc3mSy55v6EslfzjgI7aSsOtiKdNDQRRkcYM8OGtcUts6maLNiK3wjKsoctltIQTyURQJVRNh33hEk5WGdDsa5G82g3VvxrMOq3A%3D%3D
+
+        # 5. 拼接支付的url
+        alipay_url = 'https://openapi.alipaydev.com/gateway.do?' + order_string
+
+        return Response({'alipay_url':alipay_url})
