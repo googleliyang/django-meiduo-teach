@@ -29,21 +29,28 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c*xu*gd8hdpa$8m2u#kcu3y(_e-i&ea#&m^6@7z-fys1e!y1!m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+
+DEBUG = False
 # 我们家 有大门,有后门,还有窗口
 # 默认只允许 大门进入    ALLOWED_HOSTS = []
 
 # ALLOWED_HOSTS = [ 大门,后门 ]
 
 #允许我们以什么 来访问后台,这个是一种安全机制
-ALLOWED_HOSTS = ['api.meiduo.site','127.0.0.1']
+# 192.168.229.148 本机ip只用于当前测试
+# 127.0.0.1 其实也是不需要的
+ALLOWED_HOSTS = ['api.meiduo.site','www.meiduo.site','127.0.0.1','192.168.229.148']
 
 
 # #跨域访问第三步,设置白名单, 白名单就是允许谁访问
 CORS_ORIGIN_WHITELIST  =  (
     '127.0.0.1:8080',
     'localhost:8080',
-    'www.meiduo.site:8080'
+    'www.meiduo.site:8080',
+    'api.meiduo.site:8000',
+    '192.168.229.148',
+    'www.meiduo.site',
 )
 # 允许携带cookie
 CORS_ALLOW_CREDENTIALS = True
@@ -401,4 +408,8 @@ ALIPAY_URL = "https://openapi.alipaydev.com/gateway.do"
 ALIPAY_DEBUG = True
 APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/app_private_key.pem')
 ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/alipay_public_key.pem')
+
+#收集静态文件目录
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'front/static')
+
 
