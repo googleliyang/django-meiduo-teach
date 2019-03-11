@@ -22,7 +22,16 @@ p.name='aaa'
 2. 找一个安静的没有人打扰的时候,分析表和表之间的关系 (分析的时候,就分析2个表之间的分析)
 
 """
+"""
 
+create t_person (
+    name varchar(20),
+    book_id foreigh key(xxx) reference on 主表(字段)
+) engine=myisam;
+
+desc t_perosn;
+
+"""
 
 """
 
